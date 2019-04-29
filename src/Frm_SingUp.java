@@ -150,6 +150,11 @@ public class Frm_SingUp extends javax.swing.JFrame {
         lblSingUp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSingUp.setText("Ya se encuentra registrado. Ir al Login");
         lblSingUp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSingUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSingUpMouseClicked(evt);
+            }
+        });
 
         jPasswordField1.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jPasswordField1.setEchoChar('\u2022');
@@ -222,6 +227,12 @@ public class Frm_SingUp extends javax.swing.JFrame {
 //ventana.show();
         dispose();
     }//GEN-LAST:event_lblCloseMouseClicked
+
+    private void lblSingUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSingUpMouseClicked
+        Frm_Login frm = new Frm_Login();
+        frm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_lblSingUpMouseClicked
 
     /**
      * @param args the command line arguments

@@ -144,6 +144,11 @@ public class Frm_Login extends javax.swing.JFrame {
         jButton1.setActionCommand("Login");
         jButton1.setBorder(null);
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         lblSingUp.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         lblSingUp.setForeground(new java.awt.Color(0, 153, 153));
@@ -229,8 +234,15 @@ public class Frm_Login extends javax.swing.JFrame {
 
     private void lblSingUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSingUpMouseClicked
         Frm_SingUp singUp = new Frm_SingUp();
-        singUp.show();
+        singUp.setVisible(true);
+             this.setVisible(false);
     }//GEN-LAST:event_lblSingUpMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Frm_Ingresos frm = new Frm_Ingresos();
+        frm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
