@@ -1,12 +1,9 @@
 
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author SAPLIC-17
@@ -29,6 +26,7 @@ public class Frm_Proveedores extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grupoFlitro = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -72,10 +70,10 @@ public class Frm_Proveedores extends javax.swing.JFrame {
         txtDui = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtSaldo = new javax.swing.JTextField();
-        btnnuevo = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnEliminar1 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         btnnuevo1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -84,6 +82,11 @@ public class Frm_Proveedores extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -432,8 +435,11 @@ public class Frm_Proveedores extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Buscar por:");
 
+        grupoFlitro.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
         jRadioButton1.setText("Nombre");
 
+        grupoFlitro.add(jRadioButton2);
         jRadioButton2.setText("NIT");
 
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
@@ -475,11 +481,16 @@ public class Frm_Proveedores extends javax.swing.JFrame {
 
         txtSaldo.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
 
-        btnnuevo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnnuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
-        btnnuevo.setText("Nuevo");
-        btnnuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnnuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNuevo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
@@ -493,11 +504,11 @@ public class Frm_Proveedores extends javax.swing.JFrame {
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        btnEliminar1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/forbidden.png"))); // NOI18N
-        btnEliminar1.setText("Cancelar");
-        btnEliminar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/forbidden.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -516,13 +527,13 @@ public class Frm_Proveedores extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtNit)
                     .addComponent(txtNombre)
                     .addComponent(txtDireccion)
@@ -562,11 +573,11 @@ public class Frm_Proveedores extends javax.swing.JFrame {
                     .addComponent(lblSaldo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -643,53 +654,52 @@ public class Frm_Proveedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-
     private void btnProveedoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseEntered
-        btnProveedores.setBackground(new java.awt.Color(0,153,153));
+        btnProveedores.setBackground(new java.awt.Color(0, 153, 153));
     }//GEN-LAST:event_btnProveedoresMouseEntered
 
     private void btnProveedoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseExited
-        btnProveedores.setBackground(new java.awt.Color(0,102,102));
+        btnProveedores.setBackground(new java.awt.Color(0, 102, 102));
     }//GEN-LAST:event_btnProveedoresMouseExited
 
     private void btnIngresosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresosMouseEntered
-        btnIngresos.setBackground(new java.awt.Color(0,153,153));
+        btnIngresos.setBackground(new java.awt.Color(0, 153, 153));
     }//GEN-LAST:event_btnIngresosMouseEntered
 
     private void btnIngresosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresosMouseExited
-        btnIngresos.setBackground(new java.awt.Color(0,102,102));
+        btnIngresos.setBackground(new java.awt.Color(0, 102, 102));
     }//GEN-LAST:event_btnIngresosMouseExited
 
     private void btnTransaccionesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaccionesMouseEntered
-        btnTransacciones.setBackground(new java.awt.Color(0,153,153));
+        btnTransacciones.setBackground(new java.awt.Color(0, 153, 153));
     }//GEN-LAST:event_btnTransaccionesMouseEntered
 
     private void btnTransaccionesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaccionesMouseExited
-        btnTransacciones.setBackground(new java.awt.Color(0,102,102));
+        btnTransacciones.setBackground(new java.awt.Color(0, 102, 102));
     }//GEN-LAST:event_btnTransaccionesMouseExited
 
     private void btnProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseEntered
-        btnProductos.setBackground(new java.awt.Color(0,153,153));
+        btnProductos.setBackground(new java.awt.Color(0, 153, 153));
     }//GEN-LAST:event_btnProductosMouseEntered
 
     private void btnProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseExited
-        btnProductos.setBackground(new java.awt.Color(0,102,102));
+        btnProductos.setBackground(new java.awt.Color(0, 102, 102));
     }//GEN-LAST:event_btnProductosMouseExited
 
     private void btnVentasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseEntered
-        btnVentas.setBackground(new java.awt.Color(0,153,153));
+        btnVentas.setBackground(new java.awt.Color(0, 153, 153));
     }//GEN-LAST:event_btnVentasMouseEntered
 
     private void btnVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseExited
-        btnVentas.setBackground(new java.awt.Color(0,102,102));
+        btnVentas.setBackground(new java.awt.Color(0, 102, 102));
     }//GEN-LAST:event_btnVentasMouseExited
 
     private void btnAbonosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbonosMouseEntered
-        btnAbonos.setBackground(new java.awt.Color(0,153,153));
+        btnAbonos.setBackground(new java.awt.Color(0, 153, 153));
     }//GEN-LAST:event_btnAbonosMouseEntered
 
     private void btnAbonosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbonosMouseExited
-        btnAbonos.setBackground(new java.awt.Color(0,102,102));
+        btnAbonos.setBackground(new java.awt.Color(0, 102, 102));
     }//GEN-LAST:event_btnAbonosMouseExited
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -737,9 +747,29 @@ public class Frm_Proveedores extends javax.swing.JFrame {
         frm.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
-                                    
 
-   
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        limpiar();
+        activarControles(true, true, true, true, true, true);
+        activarBotones(true, false, false, true);
+        if ((btnNuevo.getText().equals("Nuevo"))) {
+            btnNuevo.setText("Guardar");
+            btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/floppy-disk.png")));
+        } else {
+            btnNuevo.setText("Nuevo");
+            btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png")));
+            limpiar();
+            activarControles(false, false, false, false, false, false);
+            activarBotones(true, false, false, false);
+        }
+        txtNombre.requestFocus();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        activarControles(false, false, false, false, false, false);
+        activarBotones(true, false, false, false);
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -776,19 +806,48 @@ public class Frm_Proveedores extends javax.swing.JFrame {
         });
     }
 
+    //Metodo para Activar y Desactivar botones
+    public final void activarBotones(boolean n, boolean m, boolean e, boolean c) {
+        btnNuevo.setEnabled(n);
+        btnModificar.setEnabled(m);
+        btnEliminar.setEnabled(e);
+        btnCancelar.setEnabled(c);
+    }
+
+    //Método para limpiar los campos del formulario
+    public void limpiar() {
+        txtNombre.setText("");
+        txtNit.setText("");
+        txtDireccion.setText("");
+        txtDui.setText("");
+        txtTelefono.setText("");
+        txtSaldo.setText("");
+    }
+
+    //Activar cotroles o campos
+    public void activarControles(boolean nom, boolean nit, boolean dir, boolean dui, boolean tel, boolean sal) {
+        txtNombre.setEnabled(nom);
+        txtNit.setEnabled(nit);
+        txtDireccion.setEnabled(dir);
+        txtDui.setEnabled(dui);
+        txtTelefono.setEnabled(tel);
+        txtSaldo.setEnabled(sal);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnAbonos;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnEliminar1;
     private javax.swing.JPanel btnIngresos;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel btnProveedores;
     private javax.swing.JPanel btnTransacciones;
     private javax.swing.JPanel btnVentas;
-    private javax.swing.JButton btnnuevo;
     private javax.swing.JButton btnnuevo1;
+    private javax.swing.ButtonGroup grupoFlitro;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
