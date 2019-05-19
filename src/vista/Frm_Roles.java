@@ -1009,6 +1009,7 @@ public class Frm_Roles extends javax.swing.JFrame {
         if (roles.charAt(22) == '1') {rbAbonosEdit.setSelected(true);}
         if (roles.charAt(23) == '1') {rbAbonosElim.setSelected(true);}
         System.out.println("Roles asignados");
+        System.out.println("");
     }
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         Connection con = null;
