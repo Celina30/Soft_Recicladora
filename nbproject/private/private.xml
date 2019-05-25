@@ -4,8 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/I:/01-2019/aplicada2/Soft_Recicladora/src/modelo/ModelProveedores.java</file>
+            <file>file:/I:/01-2019/aplicada2/Soft_Recicladora/src/vista/Frm_Roles.java</file>
             <file>file:/I:/01-2019/aplicada2/Soft_Recicladora/src/vista/Frm_Proveedores.java</file>
+            <file>file:/I:/01-2019/aplicada2/Soft_Recicladora/src/modelo/conexionbd.java</file>
             <file>file:/I:/01-2019/aplicada2/Soft_Recicladora/src/modelo/Main.java</file>
+            <file>file:/I:/01-2019/aplicada2/Soft_Recicladora/src/vista/Frm_SingUp.java</file>
         </group>
     </open-files>
 </project-private>

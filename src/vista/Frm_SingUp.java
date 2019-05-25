@@ -1,35 +1,34 @@
 package vista;
 
-
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import vista.Frm_Login;
-
+import modelo.conexionbd;
 
 public class Frm_SingUp extends javax.swing.JFrame {
+//
+//    public static final String URL="jdbc:mysql://localhost:3306/ilimitados";
+//    public static final String USERNAME="root";
+//    public static final String PASSWORD="";
+//    
+//    PreparedStatement ps; 
+//    ResultSet rs;
+//    public static Connection getConection(){
+//        Connection con=null;
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            con=(Connection) DriverManager.getConnection(URL,USERNAME,PASSWORD);
+//            JOptionPane.showMessageDialog(null, "Conexion exitosa");
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        return con;
+//    }
 
-    public static final String URL="jdbc:mysql://localhost:3306/ilimitados";
-    public static final String USERNAME="root";
-    public static final String PASSWORD="";
-    
-    PreparedStatement ps; 
-    ResultSet rs;
-    
-    public static Connection getConection(){
-        Connection con=null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con=(Connection) DriverManager.getConnection(URL,USERNAME,PASSWORD);
-            JOptionPane.showMessageDialog(null, "Conexion exitosa");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return con;
-    }
-    
+    PreparedStatement ps;
+
     public Frm_SingUp() {
         initComponents();
     }
@@ -205,7 +204,7 @@ public class Frm_SingUp extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(448, 448, 448)
                         .addComponent(lblSingUp, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,18 +225,24 @@ public class Frm_SingUp extends javax.swing.JFrame {
                 .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblSingUp)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setSize(new java.awt.Dimension(793, 490));
@@ -245,8 +250,6 @@ public class Frm_SingUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-//        principal ventana = new principal();
-//ventana.show();
         dispose();
     }//GEN-LAST:event_lblCloseMouseClicked
 
@@ -257,25 +260,27 @@ public class Frm_SingUp extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSingUpMouseClicked
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        Connection con=null;
-        
+        conexionbd conn = new conexionbd();
+        Connection con = conn.getConnection();
+
         try {
-            con=getConection();
-            ps=con.prepareStatement("INSERT INTO usuarios (nombre_usuario, password_usuario, rol_usuario) VALUES (?,?,?)");
+            ps = con.prepareStatement("INSERT INTO usuarios (nombre_usuario, password_usuario, rol_usuario) VALUES (?,?,?)");
             ps.setString(1, txtUsername.getText());
             ps.setString(2, txtPassword.getText());
             ps.setString(3, "1");
-            
-            int res=ps.executeUpdate();
-            
-            if(res>0){
-                JOptionPane.showMessageDialog(null, "Datos almacenados exitosamente");                
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Error al guardar usuario");  
+
+            int res = ps.executeUpdate();
+
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Datos almacenados exitosamente");
+                Frm_Login frm = new Frm_Login();
+                frm.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al guardar usuario");
             }
             con.close();
-            
+
         } catch (Exception e) {
             System.err.println(e);
         }

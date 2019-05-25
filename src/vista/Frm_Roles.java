@@ -1,35 +1,39 @@
 package vista;
 
-import com.mysql.jdbc.Connection;
+import java.awt.HeadlessException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.conexionbd;
 
 public class Frm_Roles extends javax.swing.JFrame {
 
-    public static final String URL = "jdbc:mysql://localhost:3306/ilimitados";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "";
-
-    String roles;
-    PreparedStatement ps;
+//    public static final String URL = "jdbc:mysql://localhost:3306/ilimitados";
+//    public static final String USERNAME = "root";
+//    public static final String PASSWORD = "";
+//
+//    PreparedStatement ps;
     ResultSet rs;
+    int userID;
 
-    public static Connection getConection() {
-        Connection con = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            JOptionPane.showMessageDialog(null, "Conexion exitosa");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return con;
-    }
-
+//    public static Connection getConection() {
+//        Connection con = null;
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            con = (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
+//            JOptionPane.showMessageDialog(null, "Conexion exitosa");
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        return con;
+//    }
     public Frm_Roles() {
         initComponents();
+        // obtenerUsuarios();
     }
 
     /**
@@ -41,6 +45,7 @@ public class Frm_Roles extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grupoRoles = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -76,47 +81,52 @@ public class Frm_Roles extends javax.swing.JFrame {
         txtPass = new javax.swing.JTextField();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnEliminar1 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        rbProvVer = new javax.swing.JRadioButton();
-        rbProvEdit = new javax.swing.JRadioButton();
-        rbProvElim = new javax.swing.JRadioButton();
-        rbProvCreate = new javax.swing.JRadioButton();
+        rbProvVer = new javax.swing.JCheckBox();
+        rbProvCreate = new javax.swing.JCheckBox();
+        rbProvEdit = new javax.swing.JCheckBox();
+        rbProvElim = new javax.swing.JCheckBox();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        rbIngresoVer = new javax.swing.JRadioButton();
-        rbIngresoEdit = new javax.swing.JRadioButton();
-        rbIngresosElim = new javax.swing.JRadioButton();
-        rbIngresoCreate = new javax.swing.JRadioButton();
+        rbIngresoVer = new javax.swing.JCheckBox();
+        rbIngresoCreate = new javax.swing.JCheckBox();
+        rbIngresoEdit = new javax.swing.JCheckBox();
+        rbIngresosElim = new javax.swing.JCheckBox();
         jPanel7 = new javax.swing.JPanel();
-        rbProdVer = new javax.swing.JRadioButton();
-        rbProdEdit = new javax.swing.JRadioButton();
-        rbProdElim = new javax.swing.JRadioButton();
-        rbProdCreate = new javax.swing.JRadioButton();
+        rbProdVer = new javax.swing.JCheckBox();
+        rbProdCreate = new javax.swing.JCheckBox();
+        rbProdEdit = new javax.swing.JCheckBox();
+        rbProdElim = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
-        rbTransVer = new javax.swing.JRadioButton();
-        rbTransEdit = new javax.swing.JRadioButton();
-        rbTransElim = new javax.swing.JRadioButton();
-        rbTransCreate = new javax.swing.JRadioButton();
+        rbTransVer = new javax.swing.JCheckBox();
+        rbTransCreate = new javax.swing.JCheckBox();
+        rbTransEdit = new javax.swing.JCheckBox();
+        rbTransElim = new javax.swing.JCheckBox();
         jPanel9 = new javax.swing.JPanel();
-        rbAbonosVer = new javax.swing.JRadioButton();
-        rbAbonosEdit = new javax.swing.JRadioButton();
-        rbAbonosElim = new javax.swing.JRadioButton();
-        rbAbonosCreate = new javax.swing.JRadioButton();
+        rbAbonosVer = new javax.swing.JCheckBox();
+        rbAbonosCreate = new javax.swing.JCheckBox();
+        rbAbonosEdit = new javax.swing.JCheckBox();
+        rbAbonosElim = new javax.swing.JCheckBox();
         jPanel8 = new javax.swing.JPanel();
-        rbVentasVer = new javax.swing.JRadioButton();
-        rbVentasEdit = new javax.swing.JRadioButton();
-        rbVentasElim = new javax.swing.JRadioButton();
-        rbVentasCreate = new javax.swing.JRadioButton();
+        rbVentasVer = new javax.swing.JCheckBox();
+        rbVentasCreate = new javax.swing.JCheckBox();
+        rbVentasEdit = new javax.swing.JCheckBox();
+        rbVentasElim = new javax.swing.JCheckBox();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaUsuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -461,6 +471,12 @@ public class Frm_Roles extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Nombre de Usuario");
@@ -485,32 +501,47 @@ public class Frm_Roles extends javax.swing.JFrame {
         btnModificar.setText("Modificar");
         btnModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnModificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/basket.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        btnEliminar1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/forbidden.png"))); // NOI18N
-        btnEliminar1.setText("Cancelar");
-        btnEliminar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/forbidden.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Proveedores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 14))); // NOI18N
 
         rbProvVer.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbProvVer.setText("Ver");
 
+        rbProvCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        rbProvCreate.setText("Crear");
+
         rbProvEdit.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbProvEdit.setText("Editar");
 
         rbProvElim.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbProvElim.setText("Eliminar");
-
-        rbProvCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        rbProvCreate.setText("Crear");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -531,9 +562,9 @@ public class Frm_Roles extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(rbProvVer)
+                .addComponent(rbProvCreate)
                 .addComponent(rbProvEdit)
-                .addComponent(rbProvElim)
-                .addComponent(rbProvCreate))
+                .addComponent(rbProvElim))
         );
 
         jLabel11.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
@@ -544,36 +575,37 @@ public class Frm_Roles extends javax.swing.JFrame {
         rbIngresoVer.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbIngresoVer.setText("Ver");
 
+        rbIngresoCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        rbIngresoCreate.setText("Crear");
+
         rbIngresoEdit.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbIngresoEdit.setText("Editar");
 
         rbIngresosElim.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbIngresosElim.setText("Eliminar");
 
-        rbIngresoCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        rbIngresoCreate.setText("Crear");
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(rbIngresoVer)
                 .addGap(18, 18, 18)
                 .addComponent(rbIngresoCreate)
                 .addGap(18, 18, 18)
                 .addComponent(rbIngresoEdit)
                 .addGap(18, 18, 18)
-                .addComponent(rbIngresosElim))
+                .addComponent(rbIngresosElim)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(rbIngresoVer)
+                .addComponent(rbIngresoCreate)
                 .addComponent(rbIngresoEdit)
-                .addComponent(rbIngresosElim)
-                .addComponent(rbIngresoCreate))
+                .addComponent(rbIngresosElim))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 14))); // NOI18N
@@ -581,36 +613,37 @@ public class Frm_Roles extends javax.swing.JFrame {
         rbProdVer.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbProdVer.setText("Ver");
 
+        rbProdCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        rbProdCreate.setText("Crear");
+
         rbProdEdit.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbProdEdit.setText("Editar");
 
         rbProdElim.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbProdElim.setText("Eliminar");
 
-        rbProdCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        rbProdCreate.setText("Crear");
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(rbProdVer)
                 .addGap(18, 18, 18)
                 .addComponent(rbProdCreate)
                 .addGap(18, 18, 18)
                 .addComponent(rbProdEdit)
                 .addGap(18, 18, 18)
-                .addComponent(rbProdElim))
+                .addComponent(rbProdElim)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(rbProdVer)
+                .addComponent(rbProdCreate)
                 .addComponent(rbProdEdit)
-                .addComponent(rbProdElim)
-                .addComponent(rbProdCreate))
+                .addComponent(rbProdElim))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transacciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 14))); // NOI18N
@@ -618,36 +651,37 @@ public class Frm_Roles extends javax.swing.JFrame {
         rbTransVer.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbTransVer.setText("Ver");
 
+        rbTransCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        rbTransCreate.setText("Crear");
+
         rbTransEdit.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbTransEdit.setText("Editar");
 
         rbTransElim.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbTransElim.setText("Eliminar");
 
-        rbTransCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        rbTransCreate.setText("Crear");
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(rbTransVer)
                 .addGap(18, 18, 18)
                 .addComponent(rbTransCreate)
                 .addGap(18, 18, 18)
                 .addComponent(rbTransEdit)
                 .addGap(18, 18, 18)
-                .addComponent(rbTransElim))
+                .addComponent(rbTransElim)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(rbTransVer)
+                .addComponent(rbTransCreate)
                 .addComponent(rbTransEdit)
-                .addComponent(rbTransElim)
-                .addComponent(rbTransCreate))
+                .addComponent(rbTransElim))
         );
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Abonos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 14))); // NOI18N
@@ -655,36 +689,37 @@ public class Frm_Roles extends javax.swing.JFrame {
         rbAbonosVer.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbAbonosVer.setText("Ver");
 
+        rbAbonosCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        rbAbonosCreate.setText("Crear");
+
         rbAbonosEdit.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbAbonosEdit.setText("Editar");
 
         rbAbonosElim.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbAbonosElim.setText("Eliminar");
 
-        rbAbonosCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        rbAbonosCreate.setText("Crear");
-
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(rbAbonosVer)
                 .addGap(18, 18, 18)
                 .addComponent(rbAbonosCreate)
                 .addGap(18, 18, 18)
                 .addComponent(rbAbonosEdit)
                 .addGap(18, 18, 18)
-                .addComponent(rbAbonosElim))
+                .addComponent(rbAbonosElim)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(rbAbonosVer)
+                .addComponent(rbAbonosCreate)
                 .addComponent(rbAbonosEdit)
-                .addComponent(rbAbonosElim)
-                .addComponent(rbAbonosCreate))
+                .addComponent(rbAbonosElim))
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ventas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 14))); // NOI18N
@@ -692,14 +727,14 @@ public class Frm_Roles extends javax.swing.JFrame {
         rbVentasVer.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbVentasVer.setText("Ver");
 
+        rbVentasCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        rbVentasCreate.setText("Crear");
+
         rbVentasEdit.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbVentasEdit.setText("Editar");
 
         rbVentasElim.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         rbVentasElim.setText("Eliminar");
-
-        rbVentasCreate.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        rbVentasCreate.setText("Crear");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -720,9 +755,9 @@ public class Frm_Roles extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(rbVentasVer)
+                .addComponent(rbVentasCreate)
                 .addComponent(rbVentasEdit)
-                .addComponent(rbVentasElim)
-                .addComponent(rbVentasCreate))
+                .addComponent(rbVentasElim))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -769,7 +804,7 @@ public class Frm_Roles extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -806,7 +841,7 @@ public class Frm_Roles extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -822,7 +857,7 @@ public class Frm_Roles extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -841,7 +876,12 @@ public class Frm_Roles extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaUsuarios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -983,54 +1023,324 @@ public class Frm_Roles extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void setRoles() {        
-        if (roles.charAt(0) == '1') {rbProvVer.setSelected(true);}
-        if (roles.charAt(1) == '1') {rbProvCreate.setSelected(true);}
-        if (roles.charAt(2) == '1') {rbProvEdit.setSelected(true);}
-        if (roles.charAt(3) == '1') {rbProvElim.setSelected(true);}
-        if (roles.charAt(4) == '1') {rbIngresoVer.setSelected(true);}
-        if (roles.charAt(5) == '1') {rbIngresoCreate.setSelected(true);}
-        if (roles.charAt(6) == '1') {rbIngresoEdit.setSelected(true);}
-        if (roles.charAt(7) == '1') {rbIngresosElim.setSelected(true);}
-        if (roles.charAt(8) == '1') {rbTransVer.setSelected(true);}
-        if (roles.charAt(9) == '1') {rbTransCreate.setSelected(true);}
-        if (roles.charAt(10) == '1') {rbTransEdit.setSelected(true);}
-        if (roles.charAt(11) == '1') {rbTransElim.setSelected(true);}
-        if (roles.charAt(12) == '1') {rbProdVer.setSelected(true);}
-        if (roles.charAt(13) == '1') {rbProdCreate.setSelected(true);}
-        if (roles.charAt(14) == '1') {rbProdEdit.setSelected(true);}
-        if (roles.charAt(15) == '1') {rbProdElim.setSelected(true);}
-        if (roles.charAt(16) == '1') {rbVentasVer.setSelected(true);}
-        if (roles.charAt(17) == '1') {rbVentasCreate.setSelected(true);}
-        if (roles.charAt(18) == '1') {rbVentasEdit.setSelected(true);}
-        if (roles.charAt(19) == '1') {rbVentasElim.setSelected(true);}
-        if (roles.charAt(20) == '1') {rbAbonosVer.setSelected(true);}
-        if (roles.charAt(21) == '1') {rbAbonosCreate.setSelected(true);}
-        if (roles.charAt(22) == '1') {rbAbonosEdit.setSelected(true);}
-        if (roles.charAt(23) == '1') {rbAbonosElim.setSelected(true);}
+    //Metodo para Activar y Desactivar botones
+    public final void activarBotones(boolean m, boolean e, boolean c) {
+
+        btnModificar.setEnabled(m);
+        btnEliminar.setEnabled(e);
+        btnCancelar.setEnabled(c);
+    }
+
+    //Método para limpiar los campos del formulario    
+    public void limpiar() {
+        txtBuscar.setText("");
+        txtNombre.setText("");
+        txtPass.setText("");
+        rbProvVer.setSelected(false);
+        rbProvCreate.setSelected(false);
+        rbProvEdit.setSelected(false);
+        rbProvElim.setSelected(false);
+        rbIngresoVer.setSelected(false);
+        rbIngresoCreate.setSelected(false);
+        rbIngresoEdit.setSelected(false);
+        rbIngresosElim.setSelected(false);
+        rbTransVer.setSelected(false);
+        rbTransCreate.setSelected(false);
+        rbTransEdit.setSelected(false);
+        rbTransElim.setSelected(false);
+        rbProdVer.setSelected(false);
+        rbProdCreate.setSelected(false);
+        rbProdElim.setSelected(false);
+        rbProdElim.setSelected(false);
+        rbVentasVer.setSelected(false);
+        rbVentasCreate.setSelected(false);
+        rbVentasEdit.setSelected(false);
+        rbVentasElim.setSelected(false);
+        rbAbonosVer.setSelected(false);
+        rbAbonosCreate.setSelected(false);
+        rbAbonosEdit.setSelected(false);
+        rbAbonosElim.setSelected(false);
+    }
+
+    //Activar cotroles o campos
+    public void activarControles(boolean nom, boolean pass) {
+        txtNombre.setEnabled(nom);
+        txtPass.setEnabled(pass);
+        setRoles("000000000000000000000000");
+    }
+
+    private void setRoles(String roles) {
+        if (roles.charAt(0) == '1') {
+            rbProvVer.setSelected(true);
+        }
+        if (roles.charAt(1) == '1') {
+            rbProvCreate.setSelected(true);
+        }
+        if (roles.charAt(2) == '1') {
+            rbProvEdit.setSelected(true);
+        }
+        if (roles.charAt(3) == '1') {
+            rbProvElim.setSelected(true);
+        }
+        if (roles.charAt(4) == '1') {
+            rbIngresoVer.setSelected(true);
+        }
+        if (roles.charAt(5) == '1') {
+            rbIngresoCreate.setSelected(true);
+        }
+        if (roles.charAt(6) == '1') {
+            rbIngresoEdit.setSelected(true);
+        }
+        if (roles.charAt(7) == '1') {
+            rbIngresosElim.setSelected(true);
+        }
+        if (roles.charAt(8) == '1') {
+            rbTransVer.setSelected(true);
+        }
+        if (roles.charAt(9) == '1') {
+            rbTransCreate.setSelected(true);
+        }
+        if (roles.charAt(10) == '1') {
+            rbTransEdit.setSelected(true);
+        }
+        if (roles.charAt(11) == '1') {
+            rbTransElim.setSelected(true);
+        }
+        if (roles.charAt(12) == '1') {
+            rbProdVer.setSelected(true);
+        }
+        if (roles.charAt(13) == '1') {
+            rbProdCreate.setSelected(true);
+        }
+        if (roles.charAt(14) == '1') {
+            rbProdElim.setSelected(true);
+        }
+        if (roles.charAt(15) == '1') {
+            rbProdElim.setSelected(true);
+        }
+        if (roles.charAt(16) == '1') {
+            rbVentasVer.setSelected(true);
+        }
+        if (roles.charAt(17) == '1') {
+            rbVentasCreate.setSelected(true);
+        }
+        if (roles.charAt(18) == '1') {
+            rbVentasEdit.setSelected(true);
+        }
+        if (roles.charAt(19) == '1') {
+            rbVentasElim.setSelected(true);
+        }
+        if (roles.charAt(20) == '1') {
+            rbAbonosVer.setSelected(true);
+        }
+        if (roles.charAt(21) == '1') {
+            rbAbonosCreate.setSelected(true);
+        }
+        if (roles.charAt(22) == '1') {
+            rbAbonosEdit.setSelected(true);
+        }
+        if (roles.charAt(23) == '1') {
+            rbAbonosElim.setSelected(true);
+        }
         System.out.println("Roles asignados");
         System.out.println("");
     }
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        Connection con = null;
 
+    private void obtenerUsuarios() {
         try {
-            con = getConection();
+            // int f, i;
+            conexionbd conn = new conexionbd();
+            Connection con = conn.getConnection();
+            PreparedStatement ps;
+            ps = con.prepareStatement("SELECT * FROM usuarios");
+            rs = ps.executeQuery();
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.addColumn("Nombre de Usuario");
+            modelo.addColumn("Password");
+            modelo.addColumn("Roles");
+
+            while (rs.next()) {
+
+                tablaUsuarios.setModel(modelo);
+                modelo.addRow(new Object[]{
+                    rs.getString("nombre_usuario"), rs.getString("password_usuario"), rs.getString("rol_usuario")
+                });
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error" + e.toString());
+        }
+    }
+
+    private void buscarUsusario() {
+        conexionbd conn = new conexionbd();
+        Connection con = conn.getConnection();;
+        try {
+            PreparedStatement ps;
             ps = con.prepareStatement("SELECT * FROM usuarios where nombre_usuario=?");
             ps.setString(1, txtBuscar.getText());
 
             rs = ps.executeQuery();
             if (rs.next()) {
+                userID = rs.getInt("Id_usuarios");
                 txtNombre.setText(rs.getString("nombre_usuario"));
                 txtPass.setText(rs.getString("password_usuario"));
-                roles = rs.getString("rol_usuario");
-                setRoles();
+                String roles = rs.getString("rol_usuario");
+                activarBotones(true, true, true);
+                activarControles(true, true);
+                setRoles(roles);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha encontrado un Usuario con ese nombre");
             }
-
+            con.close();
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        buscarUsusario();
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        conexionbd conn = new conexionbd();
+        Connection con = conn.getConnection();
+
+        try {
+
+            String cad = this.txtBuscar.getText();
+            PreparedStatement ps = con.prepareStatement("select * from usuarios where nombre_usuario like '%" + cad + "%'");
+            ResultSet rs = ps.executeQuery();
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.addColumn("Nombre de Usuario");
+            modelo.addColumn("Password");
+            modelo.addColumn("Roles");
+            while (rs.next()) {
+                tablaUsuarios.setModel(modelo);
+                modelo.addRow(new Object[]{
+                    rs.getString("nombre_usuario"), rs.getString("password_usuario"), rs.getString("rol_usuario")
+                });
+            }
+            // this.jList1.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        activarBotones(false, false, false);
+        activarControles(false, false);
+        obtenerUsuarios();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        conexionbd conn = new conexionbd();
+        Connection con = conn.getConnection();
+        if ((btnModificar.getText().equals("Nuevo"))) {
+            btnModificar.setText("Guardar");
+            btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/floppy-disk.png")));
+        } else {
+            try {
+                PreparedStatement ps;
+                ps = con.prepareStatement("UPDATE usuarios SET rol_usuario=? WHERE Id_usuarios=?");
+                ps.setString(1, getRoles());
+                ps.setInt(2, userID);
+
+                int res = ps.executeUpdate();
+
+                if (res > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario Modificado");
+                    limpiar();
+                    activarBotones(false, false, false);
+                    obtenerUsuarios();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al modificar usuario");
+                }
+                con.close();
+                btnModificar.setText("Modificar");
+                btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png")));
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
+        activarBotones(false, false, false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        conexionbd conn = new conexionbd();
+        Connection con = conn.getConnection();
+        try {
+            PreparedStatement ps;
+            ps = con.prepareStatement("DELETE FROM usuarios WHERE Id_usuarios=?");
+            ps.setInt(1, userID);
+            int res = ps.executeUpdate();
+
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Usuario Eliminado");
+                limpiar();
+                activarBotones(false, false, false);
+                obtenerUsuarios();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al Eliminar usuario");
+            }
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
+
+            limpiar();
+            int filaseleccionada;
+            try {
+                filaseleccionada = tablaUsuarios.getSelectedRow();
+
+                if (filaseleccionada == -1) {
+                    JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
+                } else {
+                    DefaultTableModel modelotabla = (DefaultTableModel) tablaUsuarios.getModel();
+                    txtBuscar.setText(modelotabla.getValueAt(filaseleccionada, 0).toString());
+                   // buscarUsusario();
+                }
+
+            } catch (HeadlessException ex) {
+                JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", " .::Error En la Operacion::.", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_tablaUsuariosMouseClicked
+    private String getRoles() {
+        String roles = "";
+        roles = (rbProvVer.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProvCreate.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProvEdit.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProvElim.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbIngresoVer.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbIngresoCreate.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbIngresoEdit.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbIngresosElim.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbTransVer.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbTransCreate.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbTransEdit.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbTransElim.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProdVer.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProdCreate.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProdEdit.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbProdElim.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbVentasVer.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbVentasCreate.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbVentasEdit.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbVentasElim.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbAbonosVer.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbAbonosCreate.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbAbonosEdit.isSelected()) ? (roles + '1') : (roles + '0');
+        roles = (rbAbonosElim.isSelected()) ? (roles + '1') : (roles + '0');
+
+        return roles;
+    }
 
     /**
      * @param args the command line arguments
@@ -1071,15 +1381,16 @@ public class Frm_Roles extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnAbonos;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnEliminar1;
     private javax.swing.JPanel btnIngresos;
     private javax.swing.JButton btnModificar;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel btnProveedores;
     private javax.swing.JPanel btnTransacciones;
     private javax.swing.JPanel btnVentas;
+    private javax.swing.ButtonGroup grupoRoles;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1110,33 +1421,33 @@ public class Frm_Roles extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblNit;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JRadioButton rbAbonosCreate;
-    private javax.swing.JRadioButton rbAbonosEdit;
-    private javax.swing.JRadioButton rbAbonosElim;
-    private javax.swing.JRadioButton rbAbonosVer;
-    private javax.swing.JRadioButton rbIngresoCreate;
-    private javax.swing.JRadioButton rbIngresoEdit;
-    private javax.swing.JRadioButton rbIngresoVer;
-    private javax.swing.JRadioButton rbIngresosElim;
-    private javax.swing.JRadioButton rbProdCreate;
-    private javax.swing.JRadioButton rbProdEdit;
-    private javax.swing.JRadioButton rbProdElim;
-    private javax.swing.JRadioButton rbProdVer;
-    private javax.swing.JRadioButton rbProvCreate;
-    private javax.swing.JRadioButton rbProvEdit;
-    private javax.swing.JRadioButton rbProvElim;
-    private javax.swing.JRadioButton rbProvVer;
-    private javax.swing.JRadioButton rbTransCreate;
-    private javax.swing.JRadioButton rbTransEdit;
-    private javax.swing.JRadioButton rbTransElim;
-    private javax.swing.JRadioButton rbTransVer;
-    private javax.swing.JRadioButton rbVentasCreate;
-    private javax.swing.JRadioButton rbVentasEdit;
-    private javax.swing.JRadioButton rbVentasElim;
-    private javax.swing.JRadioButton rbVentasVer;
+    private javax.swing.JCheckBox rbAbonosCreate;
+    private javax.swing.JCheckBox rbAbonosEdit;
+    private javax.swing.JCheckBox rbAbonosElim;
+    private javax.swing.JCheckBox rbAbonosVer;
+    private javax.swing.JCheckBox rbIngresoCreate;
+    private javax.swing.JCheckBox rbIngresoEdit;
+    private javax.swing.JCheckBox rbIngresoVer;
+    private javax.swing.JCheckBox rbIngresosElim;
+    private javax.swing.JCheckBox rbProdCreate;
+    private javax.swing.JCheckBox rbProdEdit;
+    private javax.swing.JCheckBox rbProdElim;
+    private javax.swing.JCheckBox rbProdVer;
+    private javax.swing.JCheckBox rbProvCreate;
+    private javax.swing.JCheckBox rbProvEdit;
+    private javax.swing.JCheckBox rbProvElim;
+    private javax.swing.JCheckBox rbProvVer;
+    private javax.swing.JCheckBox rbTransCreate;
+    private javax.swing.JCheckBox rbTransEdit;
+    private javax.swing.JCheckBox rbTransElim;
+    private javax.swing.JCheckBox rbTransVer;
+    private javax.swing.JCheckBox rbVentasCreate;
+    private javax.swing.JCheckBox rbVentasEdit;
+    private javax.swing.JCheckBox rbVentasElim;
+    private javax.swing.JCheckBox rbVentasVer;
+    private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPass;
